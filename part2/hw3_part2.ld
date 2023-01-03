@@ -1,30 +1,38 @@
 /* TODO: complete the script */
 
 ENTRY(_hw3_dance)
+
+PHDRS
+{
+	text PT_LOAD FLAGS PF_W PF_X ;
+	data PT_LOAD FLAGS PF_W ;
+	rodata PT_LOAD FLAGS PF_R PF_X ;
+}
+
 SECTIONS
 {
   . = 0x20000;
   .data : 
     {
 	    *(.data)
-    } AT (ADDR(.data) | PAGE_WRITEONLY)
+    } :data
   .bss :
     {
 	    *(.bss)
-    } AT (ADDR(.bss) | PAGE_WRITEONLY)
+    } :data
 
   //TODO: add other sections
   . = 0x400000;
   .text: 
   {
     *(.text)
-  } AT (ADDR(.text) | PAGE_EXECUTE_WRITECOPY)
+  } :text
 
   . = 0x90000000;
   .rodata : 
   {
 	*(.rodata)
-  } AT (ADDR(.rodata) | PAGE_EXECUTE_READ) 
+  } :rodata
 
   .symtab : 
   {
